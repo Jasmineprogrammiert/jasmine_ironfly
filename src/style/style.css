@@ -1,26 +1,26 @@
-/* BOARD */
+/* ---------- GAME ---------- */
+.game {
+  height: 100%;
+  overflow: hidden;
+  margin: 0 auto;
+}
+/* ---------- BOARD ---------- */
 .board {
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
-  align-items: stretch;
-  height: 100vh;
 }
 .grid {
-  margin: 20px 0px;
-  display: flex;
-  align-self: center;
-  flex-direction: column;
+  margin: 2.5vh auto;
 }
 .mines-count {
-  padding: 5px 10px;
-  margin-top: 20px;
-  font-weight: 400;
-  color: white;
-  border-radius: 5px;
+  margin-top: 2vh;
+  padding: 1vh 2.5vw;
+  background-color: #cec075;
+  border-radius: 20px;
   align-self: center;
   text-align: center;
-  justify-content: center;
-  background-color: #cec075;
 }
 .row {
   display: flex;
@@ -29,7 +29,7 @@
 .row:not(last-child) {
   margin-bottom: 5px;
 }
-/* CELL */
+/* ---------- CELL ---------- */
 .cell {
   display: flex;
   background-color: rgb(136, 80, 83);
@@ -70,10 +70,4 @@
 /* Empty revealed cells*/
 .cell.is-empty:not(.hidden):not(.is-mine):not(.is-flagged) {
   background-color: rgb(121, 65, 68);
-}
-/* GAME */
-.game {
-  height: 200 vh;
-  overflow: hidden;
-  margin: 0 auto;
 }

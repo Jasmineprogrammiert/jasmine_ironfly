@@ -1,11 +1,11 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Cell from "./Cell";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Cell from './Cell';
 
 class Board extends React.Component {
-  state = this.getInitialState();this
+  state = this.getInitialState(); 
 
-  getInitialState() {
+  getInitialState() { // can replace it with useState
     const initialState = {
       grid: this.createNewBoard(),
       minesCount: this.props.mines,
@@ -84,7 +84,6 @@ class Board extends React.Component {
     this.setState(this.getInitialState());
   }
 
-  /* Helpers */
   getNeighbours(grid, y, x) {
     const neighbours = [];
     const currentRow = grid[y];
@@ -208,8 +207,7 @@ class Board extends React.Component {
     });
   }
 
-  // Rendering functions
-  renderBoard() {
+  renderBoard() { // can change it to a component
     const grid = this.state.grid;
 
     return grid.map(row => {
@@ -222,7 +220,9 @@ class Board extends React.Component {
         />
       ));
 
-      return <div className="row">{rowCells}</div>;
+      return (
+        <div className="row">{rowCells}</div>
+      );
     });
   }
 
@@ -233,11 +233,13 @@ class Board extends React.Component {
           <span>Mines: {this.state.minesCount}</span>
         </div>
         <div className="grid">{this.renderBoard()}</div>
+        <div className="grid"><renderBoard /></div>
       </div>
     );
   }
 }
 
+// ---------- UNREAD ----------
 class GridCell {
   constructor(y, x, isMine) {
     this.x = x;
@@ -254,7 +256,6 @@ class GridCell {
   }
 }
 
-// Type checking With PropTypes
 Board.propTypes = {
   height: PropTypes.number,
   width: PropTypes.number,
