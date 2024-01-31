@@ -1,15 +1,14 @@
-import { useRef, useState } from 'react';
-import Board from '../components/Board';
+import { useRef, useState } from "react";
+import Board from "../components/Board";
 
 function Game() {
   const boardElement = useRef();
-
   const [height, setHeight] = useState(8);
   const [width, setWidth] = useState(8);
   const [mines, setMines] = useState(10);
 
   const handleHeight = e => {
-    let val = parseInt(e.target.value);
+    const val = parseInt(e.target.value);
     setHeight(Math.min(val, 16));
   };
 
@@ -25,7 +24,7 @@ function Game() {
 
   const restartGame = e => {
     e.preventDefault() // prevent page refresh
-    boardElement.current.restartBoard(); // link to restartBoard() in Board.jsx
+    boardElement.current.restartBoard();
   };
 
   return (
@@ -57,6 +56,7 @@ function Game() {
         />
         <button type="submit" onClick={restartGame}>Restart</button>
       </form>
+
     </div>
   );
 }

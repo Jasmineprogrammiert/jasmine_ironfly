@@ -9,8 +9,7 @@ const Cell = ({ value, onClick, cMenu }) => {
     } else if (value.isEmpty) {
       return "";
     }
-
-    return value.n;
+    return value.val;
   };
 
   const className = `cell ${
@@ -22,6 +21,7 @@ const Cell = ({ value, onClick, cMenu }) => {
   } ${value.isFlagged ? "is-flag" : ""}`;
 
   return (
+    // onContextMenu handle the right-click event
     <div className={className} onClick={onClick} onContextMenu={cMenu}>
       {getValue()}
     </div>
@@ -31,7 +31,7 @@ const Cell = ({ value, onClick, cMenu }) => {
 const cellItemShape = {
   x: PropTypes.number,
   y: PropTypes.number,
-  n: PropTypes.number,
+  val: PropTypes.number,
   isRevealed: PropTypes.bool,
   isMine: PropTypes.bool,
   isFlagged: PropTypes.bool

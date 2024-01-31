@@ -1,20 +1,20 @@
 /* ---------- GAME ---------- */
-.game {
+.game{
   height: 100%;
   overflow: hidden;
   margin: 0 auto;
 }
 /* ---------- BOARD ---------- */
-.board {
+.board{
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
-.grid {
+.grid{
   margin: 2.5vh auto;
 }
-.mines-count {
+.mines-count{
   margin-top: 2vh;
   padding: 1vh 2.5vw;
   background-color: #cec075;
@@ -22,52 +22,51 @@
   align-self: center;
   text-align: center;
 }
-.row {
+.row{
   display: flex;
   justify-content: center;
 }
-.row:not(last-child) {
-  margin-bottom: 5px;
+.row:not(last-child){
+  margin-bottom: .65vh;
 }
 /* ---------- CELL ---------- */
-.cell {
+.cell{
   display: flex;
-  background-color: rgb(136, 80, 83);
-  min-width: 30px;
-  min-height: 30px;
+  background-color: rgb(169, 137, 142); 
+  min-width: 4vh;
+  aspect-ratio: 1/1;
+  border-radius: 4px;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  border-radius: 4px;
   color: #fff;
   font-weight: 600;
   transition: background-color 0.2s;
 }
-.cell:not(first-child) {
-  margin-left: 5px;
+.cell:not(first-child){
+  margin-left: .65vh;
 }
-.cell:focus {
+.cell:focus{
   outline: none;
 }
-.cell.hidden {
-  background-color: rgb(91, 66, 69);
+.cell.hidden{
+  background-color: rgb(91, 66, 69); 
 }
-.cell.hidden:hover {
-  background-color: rgb(111, 76, 79);
+.cell.hidden:hover{
+  background-color: #cec075; 
 }
 /* Flagged incorrectly*/
-.cell.is-flag:not(.is-mine):not(.hidden) {
-  background-color: rgb(175, 62, 77);
+.cell.is-flag:not(.is-mine):not(.hidden){
+  background-color: rgb(230, 57, 0); 
 }
 /* Flagged correctly */
-.cell.is-flag.is-mine:not(.hidden) {
-  background-color: #4f8755;
+.cell.is-flag.is-mine:not(.hidden){
+  background-color: rgb(79, 135, 85);
 }
 /* Clicked on a mine*/
-.cell.is-mine.is-clicked {
-  background-color: rgb(175, 62, 77);
+.cell.is-mine.is-clicked{
+  background-color: rgb(230, 57, 0); 
 }
 /* Empty revealed cells*/
-.cell.is-empty:not(.hidden):not(.is-mine):not(.is-flagged) {
-  background-color: rgb(121, 65, 68);
+.cell.is-empty:not(.hidden):not(.is-mine):not(.is-flagged){
+  background-color: rgb(169, 137, 142); 
 }
