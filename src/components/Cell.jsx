@@ -21,7 +21,6 @@ const Cell = ({ value, onClick, cMenu }) => {
   } ${value.isFlagged ? "is-flag" : ""}`;
 
   return (
-    // onContextMenu handle the right-click event
     <div className={className} onClick={onClick} onContextMenu={cMenu}>
       {getValue()}
     </div>

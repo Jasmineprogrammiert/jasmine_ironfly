@@ -23,7 +23,7 @@ function Game() {
   };
 
   const restartGame = e => {
-    e.preventDefault() // prevent page refresh
+    e.preventDefault() 
     boardElement.current.restartBoard();
   };
 
