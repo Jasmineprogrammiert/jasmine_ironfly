@@ -6,7 +6,7 @@ class Board extends React.Component {
   state = this.getInitialState(); 
 
   getInitialState() { 
-    const initialState = {
+    const initialState = { 
       grid: this.createBoard(), 
       minesCount: this.props.mines,
       gameStatus: this.props.gameStatus
@@ -25,22 +25,22 @@ class Board extends React.Component {
     const columns = this.props.height;
     const minesCount = this.props.mines;
     const minesArray = this.getRandomMines(minesCount, columns, rows, click);
-
-    for (let i = 0; i < columns; ++i) { 
-      grid.push([]); 
+  
+    for (let i = 0; i < columns; ++i) {
+      grid.push([]);
       for (let j = 0; j < rows; ++j) {
         const gridCell = new GridCell(i, j, minesArray.includes(i * rows + j));
         this.addGridCell(grid, gridCell);
       }
     }
-
+  
     return grid;
   }
-
+  
   addGridCell(grid, gridCell) {
     const y = grid.length - 1; 
     const x = grid[y].length; 
-    const currCell = gridCell; 
+    const currCell = gridCell;
     const neighbours = this.getNeighbours(grid, y, x);
 
     for (let neighbourGridCell of neighbours) {
@@ -55,20 +55,20 @@ class Board extends React.Component {
   }
 
   getRandomMines(totalMines, columns, rows, click = null) {
-    const minesArray = []; 
+    const minesArray = [];
     const totalCells = columns * rows;
-    const minesPool = [...Array(totalCells).keys()]; 
-
+    const minesPool = Array.from({ length: totalCells }, (_, i) => i);
+  
     if (click > 0 && click < totalCells) {
       minesPool.splice(click, 1);
     }
-
-    for (let i = 0; i < totalMines; ++i) { 
-      const num = Math.floor(Math.random() * minesPool.length);
-      minesArray.push(...minesPool.splice(num, 1));
+  
+    for (let i = 0; i < totalMines; ++i) {
+      const randomIndex = Math.floor(Math.random() * (totalCells - i));
+      minesArray.push(...minesPool.splice(randomIndex, 1));
     }
-
-    return minesArray; 
+  
+    return minesArray;
   }
 
   getNeighbours(grid, y, x) {
@@ -77,12 +77,12 @@ class Board extends React.Component {
     const prevRow = grid[y - 1];
     const nextRow = grid[y + 1];
 
-    if (currRow[x - 1]) neighbours.push(currRow[x - 1]); 
-    if (currRow[x + 1]) neighbours.push(currRow[x + 1]); 
+    if (currRow[x - 1]) neighbours.push(currRow[x - 1]);
+    if (currRow[x + 1]) neighbours.push(currRow[x + 1]);
     if (prevRow) {
-      if (prevRow[x - 1]) neighbours.push(prevRow[x - 1]); 
-      if (prevRow[x]) neighbours.push(prevRow[x]); 
-      if (prevRow[x + 1]) neighbours.push(prevRow[x + 1]); 
+      if (prevRow[x - 1]) neighbours.push(prevRow[x - 1]);
+      if (prevRow[x]) neighbours.push(prevRow[x]);
+      if (prevRow[x + 1]) neighbours.push(prevRow[x + 1]);
     }
     if (nextRow) {
       if (nextRow[x - 1]) neighbours.push(nextRow[x - 1]); 
@@ -105,25 +105,20 @@ class Board extends React.Component {
     this.setState({});
   }
 
-  revealEmptyNeigbhours(grid, y, x) {
-    const neighbours = [...this.getNeighbours(grid, y, x)];
-    grid[y][x].isFlagged = false;
-    grid[y][x].isRevealed = true;
-
-    while (neighbours.length) {
-      const neighbourGridCell = neighbours.shift();
-
-      if (neighbourGridCell.isRevealed) {
-        continue;
+  revealEmptyNeighbours(grid, y, x) {
+    const cell = grid[y][x];
+  
+    if (cell.isRevealed || cell.isFlagged) return;
+  
+    cell.isFlagged = false;
+    cell.isRevealed = true;
+  
+    if (cell.isEmpty) {
+      const neighbors = this.getNeighbours(grid, y, x);
+  
+      for (const neighbor of neighbors) {
+        this.revealEmptyNeighbours(grid, neighbor.y, neighbor.x);
       }
-      if (neighbourGridCell.isEmpty) {
-        neighbours.push(
-          ...this.getNeighbours(grid, neighbourGridCell.y, neighbourGridCell.x)
-        );
-      }
-
-      neighbourGridCell.isFlagged = false;
-      neighbourGridCell.isRevealed = true;
     }
   }
 
@@ -136,15 +131,21 @@ class Board extends React.Component {
     }
   }
 
-  getRevealed = () => {
-    return this.state.grid
-      .reduce((accumulator, row) => {
-        accumulator.push(...row);
-        return accumulator;
-      }, [])
-      .map(row => row.isRevealed)
-      .filter(row => !!row).length;
-  };
+  getRevealed() {
+    let revealed = 0;
+    const grid = this.state.grid
+  
+    for (const row of grid) {
+      for (const gridCell of row) {
+        if (gridCell.isRevealed) {
+          revealed++;
+        }
+      }
+    }
+  
+    return revealed;
+  }
+  
 
   killBoard(type) {
     const message = type === "lost" ? "Ooops you lost @@" : "Congrats! You won!";
@@ -160,16 +161,15 @@ class Board extends React.Component {
 
     gridCell.isClicked = true;
 
-    if (gridCell.isRevealed || gridCell.isFlagged) {
-      return false;
-    }
+    if (gridCell.isRevealed || gridCell.isFlagged) return false;
+
     if (gridCell.isMine) {
       this.killBoard("lost");
       return false;
     }
 
     if (gridCell.isEmpty) {
-      this.revealEmptyNeigbhours(grid, y, x);
+      this.revealEmptyNeighbours(grid, y, x);
     }
 
     gridCell.isFlagged = false;
@@ -178,7 +178,7 @@ class Board extends React.Component {
     this.setState({}, () => {
       this.checkVictory();
     });
-  }
+  }  
 
   handleRightClick(e, y, x) {
     e.preventDefault(); 
@@ -253,7 +253,7 @@ class GridCell {
   }
 }
 
-Board.propTypes = { 
+Board.propTypes = {
   height: PropTypes.number,
   width: PropTypes.number,
   mines: PropTypes.number

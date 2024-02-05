@@ -49,7 +49,7 @@
   outline: none;
 }
 .cell.hidden{
-  background-color: rgb(91, 66, 69); 
+  background-color: rgb(91, 66, 69);
 }
 .cell.hidden:hover{
   background-color: #cec075; 
